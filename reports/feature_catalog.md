@@ -1,0 +1,38 @@
+# Feature Catalog
+
+*Registry version 1 · All features are computed from interactions strictly before the split cut-off (train period).*
+
+Feature store: `data/features/` · cut-off: 2000-12-02 14:53:00+00:00 · user rows: 5,392 · item rows: 3,883
+
+Served by `src/features/feature_store.py::FeatureStore` for training, evaluation and prediction.
+
+| Feature | Entity | Type | Description | Source / derivation | Null % | Statistics |
+|---|---|---|---|---|---|---|
+| `user_activity_count` | user | int | Number of ratings the user gave in the train period | user_activity_summary.n_interactions | 0.0 | min=5.00, mean=148.32, max=1849.00 |
+| `user_avg_rating` | user | float | Mean rating given by the user (rating bias / leniency) | user_activity_summary.mean_rating | 0.0 | min=1.02, mean=3.71, max=4.96 |
+| `user_rating_std` | user | float | Std-dev of the user's ratings (how discriminating the user is) | user_activity_summary.std_rating | 0.0 | min=0.12, mean=1.01, max=1.86 |
+| `user_pct_high_ratings` | user | float | Share of the user's ratings that are >= 4 | user_activity_summary.pct_high_ratings | 0.0 | min=0.00, mean=0.62, max=1.00 |
+| `user_active_days` | user | int | Distinct calendar days with at least one rating | user_activity_summary.active_days | 0.0 | min=1.00, mean=1.97, max=51.00 |
+| `user_tenure_days` | user | float | Days between the user's first and last rating | user_activity_summary.tenure_days | 0.0 | min=0.00, mean=10.26, max=214.01 |
+| `user_days_since_last_interaction` | user | float | Recency – days from the user's last rating to the feature cut-off | user_activity_summary.days_since_last | 0.0 | min=0.00, mean=75.01, max=220.56 |
+| `user_preferred_genre` | user | category | Genre with the largest share of the user's liked (>=4) ratings | user_genre_profile (argmax) | 0.0 | 19 levels; top='Drama' (42%) |
+| `user_genre_diversity` | user | float | Normalised Shannon entropy of the liked-genre distribution (0 = single genre, 1 = uniform) | user_genre_profile (entropy) | 0.0 | min=-0.00, mean=0.74, max=0.92 |
+| `user_mainstreaminess` | user | float | How mainstream the user's taste is (mean popularity percentile of items rated) | mean(item_popularity_pct of rated items) | 0.0 | min=0.45, mean=0.84, max=0.99 |
+| `user_gender` | user | category | Gender (M / F / U = unknown, imputed) | users.gender | 0.0 | 3 levels; top='M' (72%) |
+| `user_age_group` | user | category | MovieLens age bucket | users.age | 0.0 | 7 levels; top='25-34' (35%) |
+| `user_occupation` | user | category | Occupation code (0-20) | users.occupation | 0.0 | min=0.00, mean=8.13, max=20.00 |
+| `user_genre_share_<genre>` | user | float[19] | Vector – share of the user's liked ratings that fall in each genre (used for genre affinity) | user_genre_profile | 0.0 | min=0.00, mean=0.05, max=1.00 |
+| `item_popularity` | item | int | Number of ratings the item received in the train period | item_popularity.n_ratings | 0.0 | min=0.00, mean=205.96, max=2901.00 |
+| `item_popularity_rank` | item | int | Rank of the item by number of ratings (1 = most popular) | item_popularity.popularity_rank | 0.0 | min=1.00, mean=1939.74, max=3883.00 |
+| `item_popularity_pct` | item | float | Popularity percentile in [0, 1] | item_popularity.popularity_pct | 0.0 | min=0.00, mean=0.47, max=1.00 |
+| `item_avg_rating` | item | float | Mean rating of the item | item_popularity.mean_rating | 5.7 | min=1.00, mean=3.24, max=5.00 |
+| `item_bayes_rating` | item | float | Bayesian-smoothed mean rating (shrinks low-count items to the global mean) | item_popularity.bayes_rating | 0.0 | min=1.77, mean=3.39, max=4.55 |
+| `item_pct_high_ratings` | item | float | Share of the item's ratings that are >= 4 | item_popularity.pct_high_ratings | 5.7 | min=0.00, mean=0.46, max=1.00 |
+| `item_days_since_last_interaction` | item | float | Days from the item's last rating to the feature cut-off (trendiness) | item_popularity.days_since_last | 5.7 | min=0.00, mean=5.79, max=219.46 |
+| `item_release_year` | item | int | Release year parsed from the title | items.title | 0.0 | min=1919.00, mean=1986.07, max=2000.00 |
+| `item_age_years` | item | float | Years between release and the feature cut-off | items.release_year | 0.0 | min=0.00, mean=13.93, max=81.00 |
+| `item_num_genres` | item | int | Number of genres tagged on the item | item_genre_matrix | 0.0 | min=1.00, mean=1.65, max=6.00 |
+| `genre_<genre>` | item | int8[19] | One-hot genre vector of the item | item_genre_matrix | 0.0 | min=0.00, mean=0.09, max=1.00 |
+| `ui_genre_affinity` | user_item | float | Cosine similarity between the user's liked-genre profile and the item's genres | user_genre_share · item genre one-hot | 0.0 | min=0.00, mean=0.52, max=0.96 |
+| `ui_rating_gap` | user_item | float | How much better the item is rated than the user's usual rating | item_bayes_rating - user_avg_rating | 0.0 | min=-2.15, mean=-0.02, max=2.58 |
+| `ui_popularity_vs_user` | user_item | float | Item popularity percentile minus the mean popularity percentile of items the user rated | item_popularity_pct - user mainstreaminess | 0.0 | min=-0.69, mean=0.00, max=0.31 |

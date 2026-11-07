@@ -1,0 +1,107 @@
+# ---------------------------------------------------------------------------
+# Central configuration for the MovieLens recommendation pipeline.
+# Every stage reads ONLY from this file, so a run is fully reproducible from
+# (config + seed + source data checksum).
+# ---------------------------------------------------------------------------
+project:
+  name: movielens-recsys
+  seed: 42
+
+paths:
+  raw: data/raw
+  validated: data/processed/validated
+  processed: data/processed
+  derived: data/processed/derived
+  features: data/features
+  errors: data/errors
+  models: models
+  reports: reports
+  logs: logs
+
+ingestion:
+  # Public MovieLens-1M dataset (GroupLens) – tab-separated mirror on GitHub.
+  source_url: https://raw.githubusercontent.com/khanhnamle1994/movielens/master
+  files:
+    users: users.csv
+    items: movies.csv
+    interactions: ratings.csv
+  download_retries: 3
+  # MovieLens-1M is already clean. To prove the validation layer works, the
+  # ingestion stage injects a small, seeded, fully documented set of realistic
+  # defects (missing values, duplicates, wrong types, out-of-range ratings,
+  # future/invalid timestamps, orphan IDs). Set to false to ingest the data as-is.
+  inject_anomalies: true
+  anomalies:
+    interactions:
+      missing_values: 150
+      duplicates: 300
+      wrong_types: 60
+      invalid_ratings: 120
+      invalid_timestamps: 90
+      orphan_users: 50
+      orphan_items: 50
+    users:
+      missing_values: 25
+      duplicates: 10
+      invalid_age: 8
+    items:
+      missing_values: 12
+      duplicates: 5
+
+validation:
+  rating_min: 1
+  rating_max: 5
+  # MovieLens started collecting ratings in 1997; anything earlier or in the
+  # future (relative to ingestion time) is invalid.
+  min_timestamp: "1997-01-01"
+  valid_ages: [1, 18, 25, 35, 45, 50, 56]
+  valid_genders: [M, F]
+
+preparation:
+  split_strategy: global_time   # global_time | per_user_time
+  test_fraction: 0.20            # newest 20% of interactions form the test set
+  min_user_train_interactions: 5
+
+recommendation:
+  k: 10
+  relevance_threshold: 4.0       # test rating >= 4 counts as "relevant"
+
+models:
+  popularity:
+    min_ratings: 20              # item needs >= 20 ratings to be recommendable
+  item_knn:
+    neighbours: 100
+    shrinkage: 20
+  als_mf:
+    factors: 48
+    reg: 0.08                    # ALS-WR: L2 penalty = reg x (#ratings of the user/item)
+    bias_reg: 10.0
+    iterations: 10
+  hybrid:
+    # Weighted blend of min-max normalised scores (default; overridden by tuning)
+    weights:
+      item_knn: 0.55
+      als_mf: 0.20
+      genre_affinity: 0.15
+      popularity: 0.10
+
+# Hyper-parameters are tuned on a VALIDATION split carved from the end of the
+# train period (never on the test set), then the final models are refit on the
+# full train split.
+tuning:
+  enabled: true
+  validation_fraction: 0.10      # newest 10% of train interactions
+  metric: ndcg_at_10
+  item_knn_grid:
+    neighbours: [50, 100, 300]
+    shrinkage: [20, 100]
+  als_reg_grid: [0.05, 0.08, 0.12]
+  hybrid_weight_grid:
+    - {item_knn: 0.55, als_mf: 0.20, genre_affinity: 0.15, popularity: 0.10}
+    - {item_knn: 0.50, als_mf: 0.10, genre_affinity: 0.10, popularity: 0.30}
+    - {item_knn: 0.40, als_mf: 0.10, genre_affinity: 0.10, popularity: 0.40}
+    - {item_knn: 0.45, als_mf: 0.25, genre_affinity: 0.05, popularity: 0.25}
+
+mlflow:
+  tracking_uri: sqlite:///mlflow.db
+  experiment: movielens-recsys

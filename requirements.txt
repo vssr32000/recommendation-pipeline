@@ -1,0 +1,11 @@
+# Tested with Python 3.11–3.13 (versions in comments are the ones the reference run used)
+pandas>=2.2          # 3.0.5
+numpy>=1.26          # 2.5.3
+scipy>=1.11          # 1.18.1
+pyarrow>=15          # 26.0.1  (parquet storage)
+pyyaml>=6.0          # 6.0.3
+pandera>=0.24        # 0.35.0  (data validation contracts)
+mlflow>=2.15         # 3.18.0  (experiment tracking)
+prefect>=3.0         # 3.9.2   (orchestration)
+matplotlib>=3.8      # 3.11.2  (charts)
+pytest>=8            # 9.1.1   (unit tests)

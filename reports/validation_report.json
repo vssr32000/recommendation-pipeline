@@ -1,0 +1,68 @@
+{
+  "users": {
+    "rows_in": 6050,
+    "rows_passed": 6050,
+    "rows_quarantined": 0,
+    "rows_with_warnings": 43,
+    "pass_rate": 1.0,
+    "rule_counts": {
+      "duplicate_row": 10,
+      "invalid_age": 8,
+      "missing_attribute": 25
+    }
+  },
+  "items": {
+    "rows_in": 3888,
+    "rows_passed": 3888,
+    "rows_quarantined": 0,
+    "rows_with_warnings": 17,
+    "pass_rate": 1.0,
+    "rule_counts": {
+      "duplicate_row": 5,
+      "missing_attribute": 12
+    }
+  },
+  "interactions": {
+    "rows_in": 1000509,
+    "rows_passed": 999989,
+    "rows_quarantined": 520,
+    "rows_with_warnings": 450,
+    "pass_rate": 0.99948,
+    "rule_counts": {
+      "duplicate_interaction": 304,
+      "duplicate_row": 150,
+      "invalid_rating": 120,
+      "invalid_timestamp": 90,
+      "missing_key": 150,
+      "orphan_item": 50,
+      "orphan_user": 50,
+      "wrong_type": 60
+    }
+  },
+  "detection_vs_injected": {
+    "missing_value": {
+      "injected": 150,
+      "detected": 150
+    },
+    "wrong_type": {
+      "injected": 60,
+      "detected": 60
+    },
+    "invalid_rating": {
+      "injected": 120,
+      "detected": 120
+    },
+    "invalid_timestamp": {
+      "injected": 90,
+      "detected": 90
+    },
+    "orphan_user": {
+      "injected": 50,
+      "detected": 50
+    },
+    "orphan_item": {
+      "injected": 50,
+      "detected": 50
+    }
+  }
+}

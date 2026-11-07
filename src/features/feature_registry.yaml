@@ -1,0 +1,70 @@
+# Feature registry – single source of truth for every feature the models use.
+# build_features.py computes exactly these features; FeatureStore serves them;
+# the feature catalog (reports/feature_catalog.md) is generated from this file.
+version: 1
+point_in_time: "All features are computed from interactions strictly before the split cut-off (train period)."
+entities:
+  user: {key: user_id, table: user_features.parquet}
+  item: {key: item_id, table: item_features.parquet}
+  user_item: {key: [user_id, item_id], table: on-demand (computed by FeatureStore.get_user_item_features)}
+
+features:
+  # ------------------------------------------------------------------ user
+  - {name: user_activity_count, entity: user, dtype: int, source: user_activity_summary.n_interactions,
+     description: "Number of ratings the user gave in the train period"}
+  - {name: user_avg_rating, entity: user, dtype: float, source: user_activity_summary.mean_rating,
+     description: "Mean rating given by the user (rating bias / leniency)"}
+  - {name: user_rating_std, entity: user, dtype: float, source: user_activity_summary.std_rating,
+     description: "Std-dev of the user's ratings (how discriminating the user is)"}
+  - {name: user_pct_high_ratings, entity: user, dtype: float, source: user_activity_summary.pct_high_ratings,
+     description: "Share of the user's ratings that are >= 4"}
+  - {name: user_active_days, entity: user, dtype: int, source: user_activity_summary.active_days,
+     description: "Distinct calendar days with at least one rating"}
+  - {name: user_tenure_days, entity: user, dtype: float, source: user_activity_summary.tenure_days,
+     description: "Days between the user's first and last rating"}
+  - {name: user_days_since_last_interaction, entity: user, dtype: float, source: user_activity_summary.days_since_last,
+     description: "Recency – days from the user's last rating to the feature cut-off"}
+  - {name: user_preferred_genre, entity: user, dtype: category, source: user_genre_profile (argmax),
+     description: "Genre with the largest share of the user's liked (>=4) ratings"}
+  - {name: user_genre_diversity, entity: user, dtype: float, source: user_genre_profile (entropy),
+     description: "Normalised Shannon entropy of the liked-genre distribution (0 = single genre, 1 = uniform)"}
+  - {name: user_mainstreaminess, entity: user, dtype: float, source: "mean(item_popularity_pct of rated items)",
+     description: "How mainstream the user's taste is (mean popularity percentile of items rated)"}
+  - {name: user_gender, entity: user, dtype: category, source: users.gender,
+     description: "Gender (M / F / U = unknown, imputed)"}
+  - {name: user_age_group, entity: user, dtype: category, source: users.age,
+     description: "MovieLens age bucket"}
+  - {name: user_occupation, entity: user, dtype: category, source: users.occupation,
+     description: "Occupation code (0-20)"}
+  - {name: "user_genre_share_<genre>", entity: user, dtype: "float[19]", source: user_genre_profile,
+     description: "Vector – share of the user's liked ratings that fall in each genre (used for genre affinity)"}
+  # ------------------------------------------------------------------ item
+  - {name: item_popularity, entity: item, dtype: int, source: item_popularity.n_ratings,
+     description: "Number of ratings the item received in the train period"}
+  - {name: item_popularity_rank, entity: item, dtype: int, source: item_popularity.popularity_rank,
+     description: "Rank of the item by number of ratings (1 = most popular)"}
+  - {name: item_popularity_pct, entity: item, dtype: float, source: item_popularity.popularity_pct,
+     description: "Popularity percentile in [0, 1]"}
+  - {name: item_avg_rating, entity: item, dtype: float, source: item_popularity.mean_rating,
+     description: "Mean rating of the item"}
+  - {name: item_bayes_rating, entity: item, dtype: float, source: item_popularity.bayes_rating,
+     description: "Bayesian-smoothed mean rating (shrinks low-count items to the global mean)"}
+  - {name: item_pct_high_ratings, entity: item, dtype: float, source: item_popularity.pct_high_ratings,
+     description: "Share of the item's ratings that are >= 4"}
+  - {name: item_days_since_last_interaction, entity: item, dtype: float, source: item_popularity.days_since_last,
+     description: "Days from the item's last rating to the feature cut-off (trendiness)"}
+  - {name: item_release_year, entity: item, dtype: int, source: items.title,
+     description: "Release year parsed from the title"}
+  - {name: item_age_years, entity: item, dtype: float, source: items.release_year,
+     description: "Years between release and the feature cut-off"}
+  - {name: item_num_genres, entity: item, dtype: int, source: item_genre_matrix,
+     description: "Number of genres tagged on the item"}
+  - {name: "genre_<genre>", entity: item, dtype: "int8[19]", source: item_genre_matrix,
+     description: "One-hot genre vector of the item"}
+  # ------------------------------------------------------------------ user x item (on demand)
+  - {name: ui_genre_affinity, entity: user_item, dtype: float, source: "user_genre_share · item genre one-hot",
+     description: "Cosine similarity between the user's liked-genre profile and the item's genres"}
+  - {name: ui_rating_gap, entity: user_item, dtype: float, source: "item_bayes_rating - user_avg_rating",
+     description: "How much better the item is rated than the user's usual rating"}
+  - {name: ui_popularity_vs_user, entity: user_item, dtype: float, source: "item_popularity_pct - user mainstreaminess",
+     description: "Item popularity percentile minus the mean popularity percentile of items the user rated"}

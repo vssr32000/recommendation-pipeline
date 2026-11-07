@@ -1,0 +1,121 @@
+model,user_id,item_id,rank,score,clean_title,genres
+als_mf,635,527,1,4.990952443632313,Schindler's List,Drama|War
+als_mf,635,1148,2,4.948996799130769,The Wrong Trousers,Animation|Comedy
+als_mf,635,912,3,4.911359177851055,Casablanca,Drama|Romance|War
+als_mf,635,745,4,4.896432455974991,A Close Shave,Animation|Comedy|Thriller
+als_mf,635,2905,5,4.8951566254995065,Sanjuro,Action|Adventure
+als_mf,635,50,6,4.8730135778670025,The Usual Suspects,Crime|Thriller
+als_mf,635,2019,7,4.872345664104369,Seven Samurai (The Magnificent Seven) (Shichinin no samurai),Action|Drama
+als_mf,635,1949,8,4.8593048546478945,A Man for All Seasons,Drama
+als_mf,635,2028,9,4.846611027711312,Saving Private Ryan,Action|Drama|War
+als_mf,635,3134,10,4.82266717867539,"Grand Illusion (Grande illusion, La)",Drama|War
+als_mf,639,572,1,4.700483508008004,Foreign Student,Drama
+als_mf,639,2324,2,4.655445889725495,Life Is Beautiful (La Vita è bella),Comedy|Drama
+als_mf,639,3134,3,4.615229725037668,"Grand Illusion (Grande illusion, La)",Drama|War
+als_mf,639,527,4,4.609772911749905,Schindler's List,Drama|War
+als_mf,639,318,5,4.608733049390079,The Shawshank Redemption,Drama
+als_mf,639,3460,6,4.55772002141402,Hillbillys in a Haunted House,Comedy
+als_mf,639,3949,7,4.531059579598771,Requiem for a Dream,Drama
+als_mf,639,1260,8,4.507803035634064,M,Crime|Film-Noir|Thriller
+als_mf,639,745,9,4.497778634109072,A Close Shave,Animation|Comedy|Thriller
+als_mf,639,922,10,4.487194136141801,Sunset Blvd. (a.k.a. Sunset Boulevard),Film-Noir
+als_mf,641,3089,1,4.518940341635022,"Bicycle Thief, The (Ladri di biciclette)",Drama
+als_mf,641,572,2,4.4756422316847155,Foreign Student,Drama
+als_mf,641,615,3,4.465611600401839,Bread and Chocolate (Pane e cioccolata),Drama
+als_mf,641,1207,4,4.4589674729240825,To Kill a Mockingbird,Drama
+als_mf,641,1189,5,4.431599053154107,The Thin Blue Line,Documentary
+als_mf,641,3134,6,4.418623899101382,"Grand Illusion (Grande illusion, La)",Drama|War
+als_mf,641,2501,7,4.410872961658839,October Sky,Drama
+als_mf,641,2618,8,4.409829357908382,The Castle,Comedy
+als_mf,641,3030,9,4.409027107448986,Yojimbo,Comedy|Drama|Western
+als_mf,641,670,10,4.401089334857743,"World of Apu, The (Apur Sansar)",Drama
+hybrid,635,923,1,0.9629831314086914,Citizen Kane,Drama
+hybrid,635,912,2,0.9289966821670532,Casablanca,Drama|Romance|War
+hybrid,635,1193,3,0.9251682162284851,One Flew Over the Cuckoo's Nest,Drama
+hybrid,635,111,4,0.9103279709815979,Taxi Driver,Drama|Thriller
+hybrid,635,1225,5,0.8957597613334656,Amadeus,Drama
+hybrid,635,318,6,0.8803421854972839,The Shawshank Redemption,Drama
+hybrid,635,1247,7,0.8754010200500488,The Graduate,Drama|Romance
+hybrid,635,527,8,0.8752273321151733,Schindler's List,Drama|War
+hybrid,635,1084,9,0.8745141625404358,Bonnie and Clyde,Crime|Drama
+hybrid,635,908,10,0.8702514171600342,North by Northwest,Drama|Thriller
+hybrid,639,1291,1,0.9181249141693115,Indiana Jones and the Last Crusade,Action|Adventure
+hybrid,639,1036,2,0.9132399559020996,Die Hard,Action|Thriller
+hybrid,639,110,3,0.9098941683769226,Braveheart,Action|Drama|War
+hybrid,639,1210,4,0.9000995755195618,Star Wars: Episode VI - Return of the Jedi,Action|Adventure|Romance|Sci-Fi|War
+hybrid,639,2916,5,0.8867017030715942,Total Recall,Action|Adventure|Sci-Fi|Thriller
+hybrid,639,1200,6,0.877640962600708,Aliens,Action|Sci-Fi|Thriller|War
+hybrid,639,1197,7,0.8702358603477478,The Princess Bride,Action|Adventure|Comedy|Romance
+hybrid,639,780,8,0.8590202927589417,Independence Day (ID4),Action|Sci-Fi|War
+hybrid,639,858,9,0.8531409502029419,The Godfather,Action|Crime|Drama
+hybrid,639,1127,10,0.8505721092224121,The Abyss,Action|Adventure|Sci-Fi|Thriller
+hybrid,641,912,1,0.958318829536438,Casablanca,Drama|Romance|War
+hybrid,641,919,2,0.931652307510376,The Wizard of Oz,Adventure|Children|Drama|Musical
+hybrid,641,1196,3,0.9058024287223816,Star Wars: Episode V - The Empire Strikes Back,Action|Adventure|Drama|Sci-Fi|War
+hybrid,641,1221,4,0.8952988982200623,The Godfather: Part II,Action|Crime|Drama
+hybrid,641,1207,5,0.8916987180709839,To Kill a Mockingbird,Drama
+hybrid,641,908,6,0.889339029788971,North by Northwest,Drama|Thriller
+hybrid,641,1197,7,0.8884950876235962,The Princess Bride,Action|Adventure|Comedy|Romance
+hybrid,641,260,8,0.8849173784255981,Star Wars: Episode IV - A New Hope,Action|Adventure|Fantasy|Sci-Fi
+hybrid,641,1097,9,0.8847964406013489,E.T. the Extra-Terrestrial,Children|Drama|Fantasy|Sci-Fi
+hybrid,641,34,10,0.8761311769485474,Babe,Children|Comedy|Drama
+item_knn,635,923,1,5.741047382354736,Citizen Kane,Drama
+item_knn,635,1084,2,5.417907238006592,Bonnie and Clyde,Crime|Drama
+item_knn,635,111,3,5.350234031677246,Taxi Driver,Drama|Thriller
+item_knn,635,1252,4,5.1959662437438965,Chinatown,Film-Noir|Mystery|Thriller
+item_knn,635,912,5,5.1554460525512695,Casablanca,Drama|Romance|War
+item_knn,635,1193,6,5.100310802459717,One Flew Over the Cuckoo's Nest,Drama
+item_knn,635,1230,7,5.026998519897461,Annie Hall,Comedy|Romance
+item_knn,635,1225,8,4.9269537925720215,Amadeus,Drama
+item_knn,635,1247,9,4.91609001159668,The Graduate,Drama|Romance
+item_knn,635,1104,10,4.766594409942627,A Streetcar Named Desire,Drama
+item_knn,639,2916,1,25.34401512145996,Total Recall,Action|Adventure|Sci-Fi|Thriller
+item_knn,639,1036,2,24.8248233795166,Die Hard,Action|Thriller
+item_knn,639,1210,3,24.64250946044922,Star Wars: Episode VI - Return of the Jedi,Action|Adventure|Romance|Sci-Fi|War
+item_knn,639,1291,4,24.631444931030273,Indiana Jones and the Last Crusade,Action|Adventure
+item_knn,639,1200,5,23.76072883605957,Aliens,Action|Sci-Fi|Thriller|War
+item_knn,639,1127,6,22.619705200195312,The Abyss,Action|Adventure|Sci-Fi|Thriller
+item_knn,639,110,7,22.46871566772461,Braveheart,Action|Drama|War
+item_knn,639,780,8,22.275146484375,Independence Day (ID4),Action|Sci-Fi|War
+item_knn,639,2985,9,22.274932861328125,Robocop,Action|Crime|Sci-Fi
+item_knn,639,1220,10,21.820606231689453,The Blues Brothers,Action|Comedy|Musical
+item_knn,641,912,1,17.160194396972656,Casablanca,Drama|Romance|War
+item_knn,641,1196,2,16.98693084716797,Star Wars: Episode V - The Empire Strikes Back,Action|Adventure|Drama|Sci-Fi|War
+item_knn,641,919,3,16.538131713867188,The Wizard of Oz,Adventure|Children|Drama|Musical
+item_knn,641,260,4,16.16485595703125,Star Wars: Episode IV - A New Hope,Action|Adventure|Fantasy|Sci-Fi
+item_knn,641,1617,5,15.630027770996094,L.A. Confidential,Crime|Film-Noir|Mystery|Thriller
+item_knn,641,296,6,15.583841323852539,Pulp Fiction,Crime|Drama
+item_knn,641,1097,7,15.558406829833984,E.T. the Extra-Terrestrial,Children|Drama|Fantasy|Sci-Fi
+item_knn,641,1221,8,15.354989051818848,The Godfather: Part II,Action|Crime|Drama
+item_knn,641,111,9,15.351240158081055,Taxi Driver,Drama|Thriller
+item_knn,641,908,10,15.10351276397705,North by Northwest,Drama|Thriller
+popularity,635,2858,1,1.0,American Beauty,Comedy|Drama
+popularity,635,1196,2,0.8672871423647018,Star Wars: Episode V - The Empire Strikes Back,Action|Adventure|Drama|Sci-Fi|War
+popularity,635,260,3,0.8672871423647018,Star Wars: Episode IV - A New Hope,Action|Adventure|Fantasy|Sci-Fi
+popularity,635,1210,4,0.8455704929334712,Star Wars: Episode VI - Return of the Jedi,Action|Adventure|Romance|Sci-Fi|War
+popularity,635,589,5,0.786625301620131,Terminator 2: Judgment Day,Action|Sci-Fi|Thriller
+popularity,635,2028,6,0.7738710789382971,Saving Private Ryan,Action|Drama|War
+popularity,635,2571,7,0.7483626335746294,The Matrix,Action|Sci-Fi|Thriller
+popularity,635,1580,8,0.7431920027576697,Men in Black,Action|Adventure|Comedy|Sci-Fi
+popularity,635,593,9,0.7414684591520165,The Silence of the Lambs,Drama|Thriller
+popularity,635,1198,10,0.7269906928645294,Raiders of the Lost Ark,Action|Adventure
+popularity,639,2858,1,1.0,American Beauty,Comedy|Drama
+popularity,639,1210,2,0.8455704929334712,Star Wars: Episode VI - Return of the Jedi,Action|Adventure|Romance|Sci-Fi|War
+popularity,639,1270,3,0.7521544295070666,Back to the Future,Comedy|Sci-Fi
+popularity,639,593,4,0.7414684591520165,The Silence of the Lambs,Drama|Thriller
+popularity,639,608,5,0.739055498104102,Fargo,Crime|Drama|Thriller
+popularity,639,110,6,0.7159600137883488,Braveheart,Action|Drama|War
+popularity,639,2396,7,0.6870044812133747,Shakespeare in Love,Comedy|Romance
+popularity,639,1197,8,0.671147880041365,The Princess Bride,Action|Adventure|Comedy|Romance
+popularity,639,527,9,0.6663219579455361,Schindler's List,Drama|War
+popularity,639,1617,10,0.6639089968976215,L.A. Confidential,Crime|Film-Noir|Mystery|Thriller
+popularity,641,1196,1,0.8672871423647018,Star Wars: Episode V - The Empire Strikes Back,Action|Adventure|Drama|Sci-Fi|War
+popularity,641,260,2,0.8672871423647018,Star Wars: Episode IV - A New Hope,Action|Adventure|Fantasy|Sci-Fi
+popularity,641,589,3,0.786625301620131,Terminator 2: Judgment Day,Action|Sci-Fi|Thriller
+popularity,641,2028,4,0.7738710789382971,Saving Private Ryan,Action|Drama|War
+popularity,641,480,5,0.7697345742847294,Jurassic Park,Action|Adventure|Sci-Fi
+popularity,641,2571,6,0.7483626335746294,The Matrix,Action|Sci-Fi|Thriller
+popularity,641,1580,7,0.7431920027576697,Men in Black,Action|Adventure|Comedy|Sci-Fi
+popularity,641,110,8,0.7159600137883488,Braveheart,Action|Drama|War
+popularity,641,2762,9,0.697345742847294,The Sixth Sense,Thriller
+popularity,641,1197,10,0.671147880041365,The Princess Bride,Action|Adventure|Comedy|Romance

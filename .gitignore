@@ -1,0 +1,16 @@
+# generated data (re-created by the pipeline; raw source is downloaded at run time)
+data/raw/*
+data/processed/*
+data/features/*
+data/errors/*
+!data/**/.gitkeep
+models/*.pkl
+mlflow.db
+mlruns/
+logs/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+.prefect/
