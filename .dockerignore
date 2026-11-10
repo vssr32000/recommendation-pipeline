@@ -1,0 +1,11 @@
+.git
+.venv
+__pycache__
+data/raw/*
+data/processed/*
+data/features/*
+data/errors/*
+models/*.pkl
+mlflow.db
+mlruns
+logs

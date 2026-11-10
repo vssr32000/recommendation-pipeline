@@ -47,7 +47,8 @@ def table(rows, widths, header=True, zebra=True, bold_last=False):
     data = [[Paragraph(str(c), CELLB if (header and i == 0) else CELL) for c in r] for i, r in enumerate(rows)]
     t = Table(data, colWidths=widths, repeatRows=1 if header else 0)
     st = [("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#CBD5E1")), ("VALIGN", (0, 0), (-1, -1), "TOP"),
-          ("TOPPADDING", (0, 0), (-1, -1), 2.5), ("BOTTOMPADDING", (0, 0), (-1, -1), 2.5)]
+          ("TOPPADDING", (0, 0), (-1, -1), 2.5), ("BOTTOMPADDING", (0, 0), (-1, -1), 2.5),
+          ("LEFTPADDING", (0, 0), (-1, -1), 3.5), ("RIGHTPADDING", (0, 0), (-1, -1), 3.5)]
     if header:
         st.append(("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#E0E7FF")))
     if zebra:
@@ -188,7 +189,7 @@ def build(repo_url: str, out: Path) -> None:
     order = ["precision_at_10", "recall_at_10", "ndcg_at_10", "hit_rate_at_10", "coverage_at_10", "diversity_at_10", "rmse", "mae"]
     hdr = ["Model", "P@10", "R@10", "NDCG@10", "Hit@10", "Cov@10", "Div@10", "RMSE", "MAE"]
     mrows = [hdr] + [[r["model"]] + ["-" if pd.isna(r[c]) else f"{r[c]:.4f}" for c in order] for _, r in cmp_.iterrows()]
-    s.append(table(mrows, [40 * mm] + [(W - 40 * mm) / 8] * 8, bold_last=True))
+    s.append(table(mrows, [38 * mm] + [(W - 38 * mm) / 8] * 8, bold_last=True))
     s.append(Spacer(1, 4))
     s.append(img(REP / "figures/model_comparison.png", W))
     s.append(Paragraph("Figure 2 - Model comparison on the future test period (K = 10).", CAP))
@@ -240,8 +241,8 @@ def build(repo_url: str, out: Path) -> None:
         ("06_train.png", "A6 - Stage 6, Model training: validation-split tuning (MLflow nested runs) and final training of the four models."),
         ("07_evaluate.png", "A7 - Stage 7, Model evaluation: P/R/NDCG@10, coverage, diversity, novelty, RMSE/MAE comparison."),
         ("08_prefect_flow.png", "A8 - Orchestration: full Prefect flow run, with the seven tasks completed in dependency order and the data-quality gate."),
-        ("09_prefect_ui.png", "A9 - Prefect UI: successful flow run 'soft-eagle', task dependency graph and logs (7/7 tasks Completed)."),
-        ("10_mlflow_runs.png", "A10 - MLflow experiment 'movielens-recsys': tuning parent runs, training runs and evaluation summaries from three executions."),
+        ("09_prefect_ui.png", "A9 - Prefect UI: successful flow run, task dependency graph and logs (7/7 tasks Completed)."),
+        ("10_mlflow_runs.png", "A10 - MLflow experiment 'movielens-recsys': tuning parent runs, training runs and evaluation summaries, one set per pipeline execution."),
         ("11_mlflow_run_detail.png", "A11 - MLflow run detail (train_hybrid): logged metrics, parameters, lineage tags and link to the tuning run."),
         ("12_mlflow_query.png", "A12 - Tracked parameters and metrics of the latest execution, queried from MLflow."),
         ("13_serving.png", "A13 - Prediction: top-10 recommendations for user 635 from the hybrid model, with features read from the same feature store."),

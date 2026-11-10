@@ -50,7 +50,7 @@ recommendation-pipeline/
 ├── reports/                       # validation report, feature catalog, model comparison, screenshots
 ├── docs/                          # architecture diagram + final report (PDF)
 ├── tests/                         # unit tests for metrics + DAG order
-├── requirements.txt · Makefile
+├── requirements.txt · Makefile · Dockerfile
 ```
 
 ## Setup
@@ -58,13 +58,35 @@ recommendation-pipeline/
 ```bash
 git clone https://github.com/<your-github-username>/recommendation-pipeline.git
 cd recommendation-pipeline
-python3 -m venv .venv && source .venv/bin/activate      # Python 3.11+
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
 The raw data (~38 MB) is **downloaded automatically** on the first run from a public GitHub mirror of
 MovieLens-1M. Offline? Put `users.csv`, `movies.csv`, `ratings.csv` (tab-separated mirror format) in a folder and
 `export RECSYS_SOURCE_DIR=/path/to/folder`.
+
+Requires Python 3.11+ (`python3 --version`).
+
+### Alternative: Docker (no local Python needed)
+
+```bash
+docker build -t recsys-pipeline .
+docker run --rm -v "$PWD":/app recsys-pipeline python run_pipeline.py
+docker run --rm -v "$PWD":/app recsys-pipeline python run_pipeline.py --stage ingest
+```
+
+Prefect server + flow and MLflow UI in Docker:
+
+```bash
+docker network create recsys
+docker run -d --name prefect --network recsys -p 4200:4200 -e PREFECT_UI_API_URL=http://localhost:4200/api recsys-pipeline prefect server start --host 0.0.0.0
+docker run --rm --network recsys -v "$PWD":/app -e PREFECT_API_URL=http://prefect:4200/api recsys-pipeline python dags/recommendation_flow.py
+docker run -d --name mlflow -p 5001:5000 -v "$PWD":/app recsys-pipeline mlflow ui --backend-store-uri sqlite:////app/mlflow.db --host 0.0.0.0 --port 5000
+```
+
+Prefect UI → http://localhost:4200 · MLflow UI → http://localhost:5001
 
 ## Running
 
@@ -157,7 +179,7 @@ fails, and returns a non-zero exit code (cron-friendly).
 ### Reproducibility
 Single config file · fixed seed (42) for defect injection, ALS initialisation and sampling · source checksums in
 the ingestion manifest · feature-store MD5s logged to MLflow · deterministic splits. Re-running the pipeline gives
-identical metrics (three runs are visible in the MLflow screenshot with the same results).
+identical metrics (every execution in MLflow shows the same results).
 
 ## Deliverables index
 
