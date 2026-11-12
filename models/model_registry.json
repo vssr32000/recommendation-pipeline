@@ -1,7 +1,7 @@
 {
   "popularity": {
     "path": "models/popularity.pkl",
-    "run_id": "6cb6a392bc4d4450abda299a0c7c4298",
+    "run_id": "45884e0763ae4b08a7912c7b75c0cd9d",
     "params": {
       "min_ratings": 20
     },
@@ -9,27 +9,27 @@
   },
   "item_knn": {
     "path": "models/item_knn.pkl",
-    "run_id": "ffedc396240b4e51a0bbf123418da3d3",
+    "run_id": "fc4aef2c2c894f1e89f4eeb11871dc07",
     "params": {
       "neighbours": 300,
       "shrinkage": 100
     },
-    "train_seconds": 0.89
+    "train_seconds": 0.75
   },
   "als_mf": {
     "path": "models/als_mf.pkl",
-    "run_id": "c12781616c6a407ea70c6e74bb7becdb",
+    "run_id": "d03de936e77f4916bdcb80a2368ae52c",
     "params": {
       "factors": 48,
       "reg": 0.08,
       "bias_reg": 10.0,
       "iterations": 10
     },
-    "train_seconds": 8.89
+    "train_seconds": 3.42
   },
   "hybrid": {
     "path": "models/hybrid.pkl",
-    "run_id": "d55f4e12de5a469f8106f68945c923db",
+    "run_id": "e325a1ae0bbc40bba3f7417163d9c978",
     "params": {
       "weights": {
         "item_knn": 0.45,

@@ -109,8 +109,8 @@ popularity,639,2396,7,0.6870044812133747,Shakespeare in Love,Comedy|Romance
 popularity,639,1197,8,0.671147880041365,The Princess Bride,Action|Adventure|Comedy|Romance
 popularity,639,527,9,0.6663219579455361,Schindler's List,Drama|War
 popularity,639,1617,10,0.6639089968976215,L.A. Confidential,Crime|Film-Noir|Mystery|Thriller
-popularity,641,1196,1,0.8672871423647018,Star Wars: Episode V - The Empire Strikes Back,Action|Adventure|Drama|Sci-Fi|War
-popularity,641,260,2,0.8672871423647018,Star Wars: Episode IV - A New Hope,Action|Adventure|Fantasy|Sci-Fi
+popularity,641,260,1,0.8672871423647018,Star Wars: Episode IV - A New Hope,Action|Adventure|Fantasy|Sci-Fi
+popularity,641,1196,2,0.8672871423647018,Star Wars: Episode V - The Empire Strikes Back,Action|Adventure|Drama|Sci-Fi|War
 popularity,641,589,3,0.786625301620131,Terminator 2: Judgment Day,Action|Sci-Fi|Thriller
 popularity,641,2028,4,0.7738710789382971,Saving Private Ryan,Action|Drama|War
 popularity,641,480,5,0.7697345742847294,Jurassic Park,Action|Adventure|Sci-Fi

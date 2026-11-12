@@ -138,7 +138,7 @@ def run(cfg: dict | None = None) -> dict:
         fs = FeatureStore(fdir)
         write_catalog(cfg, registry, uf, if_, fs, train, log)
         test = pd.read_parquet(proc / "test.parquet")
-        demo_users = sorted(test["user_id"].unique())[:2]
+        demo_users = [int(u) for u in sorted(test["user_id"].unique())[:2]]
         demo_u = fs.get_user_features(demo_users, ["user_activity_count", "user_avg_rating", "user_preferred_genre",
                                                 "user_days_since_last_interaction"])
         demo_i = fs.get_item_features([2858, 260], ["item_popularity", "item_avg_rating", "item_bayes_rating",

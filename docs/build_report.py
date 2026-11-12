@@ -204,7 +204,8 @@ def build(repo_url: str, out: Path) -> None:
         "item-mean baseline), but ranking by predicted rating pushes long-tail items with high predicted scores (novelty "
         "4.4), so its top-K accuracy is low. That is the usual gap between rating prediction and top-K ranking, and it "
         "is why ALS contributes to the hybrid as a signal and is not used on its own. Results are identical across "
-        "repeated runs (fixed seed and deterministic splits).", B))
+        "repeated runs (fixed seed and deterministic splits): the MLflow runs table (A10) shows the same metrics for "
+        "every execution.", B))
 
     # ------------------------------------------------------------------ 6 limitations
     s.append(Paragraph("6. Limitations and future work", H1))
@@ -231,7 +232,8 @@ def build(repo_url: str, out: Path) -> None:
     s.append(Paragraph(
         "Each stage was executed individually with <font face='Courier'>python run_pipeline.py --stage &lt;name&gt;</font>, "
         "then the full DAG was executed as a Prefect flow against a local Prefect server. Terminal captures show the "
-        "unedited program output; UI captures are from the Prefect and MLflow web UIs of the same run.", B))
+        "unedited program output (A8 shows only the Prefect orchestration lines; the complete flow output is in "
+        "<font face='Courier'>reports/prefect_flow_run.log</font>). UI captures are from the Prefect and MLflow web UIs.", B))
     shots = [
         ("01_ingest.png", "A1 - Stage 1, Data ingestion: download/cache, schema standardisation, defect injection, manifest with MD5."),
         ("02_validate.png", "A2 - Stage 2, Data validation: pandera rule counts by severity, quarantine, detection check against injected defects."),
@@ -240,7 +242,7 @@ def build(repo_url: str, out: Path) -> None:
         ("05_features.png", "A5 - Stage 5, Feature management: registry check, feature store tables, catalog, FeatureStore API calls."),
         ("06_train.png", "A6 - Stage 6, Model training: validation-split tuning (MLflow nested runs) and final training of the four models."),
         ("07_evaluate.png", "A7 - Stage 7, Model evaluation: P/R/NDCG@10, coverage, diversity, novelty, RMSE/MAE comparison."),
-        ("08_prefect_flow.png", "A8 - Orchestration: full Prefect flow run, with the seven tasks completed in dependency order and the data-quality gate."),
+        ("08_prefect_flow.png", "A8 - Orchestration: Prefect flow run summary - the seven tasks completed in dependency order, data-quality gate and final model scores."),
         ("09_prefect_ui.png", "A9 - Prefect UI: successful flow run, task dependency graph and logs (7/7 tasks Completed)."),
         ("10_mlflow_runs.png", "A10 - MLflow experiment 'movielens-recsys': tuning parent runs, training runs and evaluation summaries, one set per pipeline execution."),
         ("11_mlflow_run_detail.png", "A11 - MLflow run detail (train_hybrid): logged metrics, parameters, lineage tags and link to the tuning run."),

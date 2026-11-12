@@ -17,7 +17,7 @@ Ingestion → Validation → Preparation → Transformation → Feature Manageme
 
 | Model | Precision@10 | Recall@10 | NDCG@10 | Coverage@10 | Diversity@10 | RMSE | MAE |
 |---|---|---|---|---|---|---|---|
-| Popularity (baseline) | 0.1985 | 0.0479 | 0.2129 | 0.0374 | 0.7600 | 0.9595 | 0.7597 |
+| Popularity (baseline) | 0.1986 | 0.0479 | 0.2129 | 0.0374 | 0.7601 | 0.9595 | 0.7597 |
 | Item-kNN CF | 0.1912 | 0.0548 | 0.2124 | 0.1436 | 0.7370 | – | – |
 | ALS Matrix Factorisation | 0.0954 | 0.0256 | 0.1006 | 0.1671 | 0.7904 | **0.8941** | **0.6956** |
 | **Hybrid (CF + MF + features)** | **0.2265** | **0.0646** | **0.2489** | 0.1092 | 0.7443 | – | – |
@@ -56,7 +56,7 @@ recommendation-pipeline/
 ## Setup
 
 ```bash
-git clone https://github.com/<your-github-username>/recommendation-pipeline.git
+git clone https://github.com/vssr32000/recommendation-pipeline.git
 cd recommendation-pipeline
 python3 -m venv .venv
 source .venv/bin/activate

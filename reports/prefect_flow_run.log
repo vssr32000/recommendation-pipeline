@@ -1,0 +1,162 @@
+01:05:14.228 | INFO    | Flow run 'augmented-terrier' - Beginning flow run 'augmented-terrier' for flow 'movielens-recommendation-pipeline'
+01:05:14.231 | INFO    | Flow run 'augmented-terrier' - View at http://127.0.0.1:4200/runs/flow-run/6c3d8dfa-a1cf-451c-bbbc-9c4c2ebe2214
+01:05:14.235 | INFO    | Flow run 'augmented-terrier' - Starting pipeline with config configs/pipeline.yaml (seed=42)
+2026-11-11 01:05:14 | INFO    | ingestion      | ==============================================================================
+2026-11-11 01:05:14 | INFO    | ingestion      | STAGE: 1. DATA INGESTION
+2026-11-11 01:05:14 | INFO    | ingestion      | ==============================================================================
+2026-11-11 01:05:14 | INFO    | ingestion      | Using cached source file data/raw/source/users.csv
+2026-11-11 01:05:14 | INFO    | ingestion      | Using cached source file data/raw/source/movies.csv
+2026-11-11 01:05:14 | INFO    | ingestion      | Using cached source file data/raw/source/ratings.csv
+2026-11-11 01:05:14 | INFO    | ingestion      | Loaded source users        rows=    6,040 cols=['user_id', 'gender', 'age', 'occupation', 'zipcode']
+2026-11-11 01:05:14 | INFO    | ingestion      | Loaded source items        rows=    3,883 cols=['item_id', 'title', 'genres']
+2026-11-11 01:05:14 | INFO    | ingestion      | Loaded source interactions rows=1,000,209 cols=['user_id', 'item_id', 'rating', 'timestamp']
+2026-11-11 01:05:15 | INFO    | ingestion      | Injected 880 documented data-quality defects (seed=42) for validation testing
+2026-11-11 01:05:15 | INFO    | ingestion      | Wrote raw users        -> data/raw/users.csv (6,050 rows, md5=fe178a76e7)
+2026-11-11 01:05:15 | INFO    | ingestion      | Wrote raw items        -> data/raw/items.csv (3,888 rows, md5=f7771839ed)
+2026-11-11 01:05:15 | INFO    | ingestion      | Wrote raw interactions -> data/raw/interactions.csv (1,000,509 rows, md5=ae497455c5)
+2026-11-11 01:05:15 | INFO    | ingestion      | Ingestion manifest written to data/raw/ingestion_manifest.json
+2026-11-11 01:05:15 | INFO    | ingestion      | Ingestion finished in 1.75s
+01:05:16.048 | INFO    | Task run '1-ingest-2ba' - Finished in state Completed()
+2026-11-11 01:05:16 | INFO    | validation     | ==============================================================================
+2026-11-11 01:05:16 | INFO    | validation     | STAGE: 2. DATA VALIDATION  (pandera contracts + custom checks)
+2026-11-11 01:05:16 | INFO    | validation     | ==============================================================================
+2026-11-11 01:05:16 | INFO    | validation     | [users] in=6,050 passed=6,050 quarantined=0 warnings=43 pass_rate=100.0000%
+2026-11-11 01:05:16 | INFO    | validation     |     duplicate_row          WARNING      10  – Exact duplicate record – de-duplicated in preparation
+2026-11-11 01:05:16 | INFO    | validation     |     invalid_age            WARNING       8  – Age not in the MovieLens age-bucket domain – imputed in preparation
+2026-11-11 01:05:16 | INFO    | validation     |     missing_attribute      WARNING      25  – Optional attribute is null – imputed in preparation
+2026-11-11 01:05:16 | INFO    | validation     | [items] in=3,888 passed=3,888 quarantined=0 warnings=17 pass_rate=100.0000%
+2026-11-11 01:05:16 | INFO    | validation     |     duplicate_row          WARNING       5  – Exact duplicate record – de-duplicated in preparation
+2026-11-11 01:05:16 | INFO    | validation     |     missing_attribute      WARNING      12  – Optional attribute is null – imputed in preparation
+2026-11-11 01:05:17 | INFO    | validation     | [interactions] in=1,000,509 passed=999,989 quarantined=520 warnings=450 pass_rate=99.9480%
+2026-11-11 01:05:17 | INFO    | validation     |     duplicate_interaction  WARNING     304  – Same (user_id, item_id) rated more than once – latest kept in preparation
+2026-11-11 01:05:17 | INFO    | validation     |     duplicate_row          WARNING     150  – Exact duplicate record – de-duplicated in preparation
+2026-11-11 01:05:17 | INFO    | validation     |     invalid_rating         ERROR       120  – Rating must be an integer in [rating_min, rating_max]
+2026-11-11 01:05:17 | INFO    | validation     |     invalid_timestamp      ERROR        90  – Timestamp must lie between min_timestamp and ingestion time
+2026-11-11 01:05:17 | INFO    | validation     |     missing_key            ERROR       150  – Required key / measure is null
+2026-11-11 01:05:17 | INFO    | validation     |     orphan_item            ERROR        50  – item_id must exist in the items table (referential integrity)
+2026-11-11 01:05:17 | INFO    | validation     |     orphan_user            ERROR        50  – user_id must exist in the users table (referential integrity)
+2026-11-11 01:05:17 | INFO    | validation     |     wrong_type             ERROR        60  – Value cannot be parsed into the expected data type
+2026-11-11 01:05:17 | INFO    | validation     |     detection check missing_value      injected= 150 detected= 150 OK
+2026-11-11 01:05:17 | INFO    | validation     |     detection check wrong_type         injected=  60 detected=  60 OK
+2026-11-11 01:05:17 | INFO    | validation     |     detection check invalid_rating     injected= 120 detected= 120 OK
+2026-11-11 01:05:17 | INFO    | validation     |     detection check invalid_timestamp  injected=  90 detected=  90 OK
+2026-11-11 01:05:17 | INFO    | validation     |     detection check orphan_user        injected=  50 detected=  50 OK
+2026-11-11 01:05:17 | INFO    | validation     |     detection check orphan_item        injected=  50 detected=  50 OK
+2026-11-11 01:05:17 | INFO    | validation     | Validation report -> reports/validation_report.md ; quarantined rows -> data/errors/
+2026-11-11 01:05:17 | INFO    | validation     | Validation finished in 1.38s
+01:05:17.426 | INFO    | Task run '2-validate-fc9' - Data-quality gate: quarantine rate 0.0520% (limit 1.00%)
+01:05:17.428 | INFO    | Task run '2-validate-fc9' - Finished in state Completed()
+2026-11-11 01:05:17 | INFO    | preparation    | ==============================================================================
+2026-11-11 01:05:17 | INFO    | preparation    | STAGE: 3. DATA PREPARATION  (cleaning, standardisation, time-based split)
+2026-11-11 01:05:17 | INFO    | preparation    | ==============================================================================
+2026-11-11 01:05:17 | INFO    | preparation    |   users_duplicates_removed                      10
+2026-11-11 01:05:17 | INFO    | preparation    |   users_gender_imputed                          4
+2026-11-11 01:05:17 | INFO    | preparation    |   users_age_imputed                             19
+2026-11-11 01:05:17 | INFO    | preparation    |   users_occupation_imputed                      7
+2026-11-11 01:05:17 | INFO    | preparation    |   users_age_mode                                25
+2026-11-11 01:05:17 | INFO    | preparation    |   items_duplicates_removed                      5
+2026-11-11 01:05:17 | INFO    | preparation    |   items_genres_imputed                          12
+2026-11-11 01:05:17 | INFO    | preparation    |   interactions_exact_duplicates_removed         150
+2026-11-11 01:05:17 | INFO    | preparation    |   interactions_rerating_duplicates_resolved     150
+2026-11-11 01:05:17 | INFO    | preparation    | Clean tables: users=6,040 items=3,883 interactions=999,689
+2026-11-11 01:05:17 | INFO    | preparation    | Time-based split (global_time): cutoff=2000-12-02 14:53:00+00:00
+2026-11-11 01:05:17 | INFO    | preparation    |   train: 799,725 rows | 5,392 users | 3,662 items | 2000-04-25 → 2000-12-02
+2026-11-11 01:05:17 | INFO    | preparation    |   test : 103,783 rows (warm) | 1,135 users | 3,406 items | cold-start rows excluded: users=96,064 items=91
+2026-11-11 01:05:18 | INFO    | preparation    | Wrote users/items/interactions/train/test parquet to data/processed/
+2026-11-11 01:05:18 | INFO    | preparation    | Preparation finished in 0.73s
+01:05:18.156 | INFO    | Task run '3-prepare-441' - Finished in state Completed()
+2026-11-11 01:05:18 | INFO    | transformation | ==============================================================================
+2026-11-11 01:05:18 | INFO    | transformation | STAGE: 4. DATA TRANSFORMATION  (derived datasets from the train split)
+2026-11-11 01:05:18 | INFO    | transformation | ==============================================================================
+2026-11-11 01:05:19 | INFO    | transformation | user_activity_summary : 5392 rows x 10 cols
+2026-11-11 01:05:19 | INFO    | transformation | item_popularity       : 3662 rows x 10 cols  (top item: American Beauty (1999), 2901 ratings)
+2026-11-11 01:05:19 | INFO    | transformation | item_genre_matrix     : 3883 rows x 20 cols  (19 genres)
+2026-11-11 01:05:19 | INFO    | transformation | user_genre_profile    : 5392 rows x 20 cols
+2026-11-11 01:05:19 | INFO    | transformation | user_item_matrix      : 5392 x 3662 sparse CSR, nnz=799,725, density=4.05%
+2026-11-11 01:05:19 | INFO    | transformation | Sample user_activity_summary:
+ user_id  n_interactions  mean_rating  std_rating  pct_high_ratings  first_ts   last_ts  active_days  tenure_days  days_since_last
+     635              36         4.36        0.59              0.94 975767861 975768756            1         0.01             0.00
+     636              86         4.06        0.91              0.71 975751854 975753027            1         0.01             0.18
+     637             376         3.76        1.08              0.65 975733398 975739614            1         0.07             0.34
+2026-11-11 01:05:19 | INFO    | transformation | Top-5 item_popularity:
+ item_id                                    clean_title  n_ratings  mean_rating  bayes_rating  popularity_rank
+    2858                                American Beauty       2901        4.329         4.324                1
+     260             Star Wars: Episode IV - A New Hope       2516        4.452         4.446                2
+    1196 Star Wars: Episode V - The Empire Strikes Back       2516        4.290         4.285                2
+    1210     Star Wars: Episode VI - Return of the Jedi       2453        4.019         4.016                4
+     589                     Terminator 2: Judgment Day       2282        4.067         4.063                5
+2026-11-11 01:05:19 | INFO    | transformation | Transformation finished in 1.02s
+01:05:19.182 | INFO    | Task run '4-transform-4d5' - Finished in state Completed()
+2026-11-11 01:05:19 | INFO    | features       | ==============================================================================
+2026-11-11 01:05:19 | INFO    | features       | STAGE: 5. FEATURE MANAGEMENT  (registry → feature store → catalog)
+2026-11-11 01:05:19 | INFO    | features       | ==============================================================================
+2026-11-11 01:05:19 | INFO    | features       | Registry check passed: all 28 declared features materialised
+2026-11-11 01:05:19 | INFO    | features       | user_features : 5,392 users x 32 columns
+2026-11-11 01:05:19 | INFO    | features       | item_features : 3,883 items x 29 columns
+2026-11-11 01:05:19 | INFO    | features       | Feature catalog (28 features) -> reports/feature_catalog.md
+2026-11-11 01:05:19 | INFO    | features       | FeatureStore.get_user_features([635, 639]):
+         user_activity_count  user_avg_rating user_preferred_genre  user_days_since_last_interaction
+user_id                                                                                             
+635                       36            4.361                Drama                             0.000
+639                       79            3.696               Action                             0.459
+2026-11-11 01:05:19 | INFO    | features       | FeatureStore.get_item_features([2858, 260]):
+         item_popularity  item_avg_rating  item_bayes_rating  item_popularity_rank
+item_id                                                                           
+2858                2901            4.329              4.324                     1
+260                 2516            4.452              4.446                     2
+2026-11-11 01:05:19 | INFO    | features       | FeatureStore.get_user_item_features(...):
+ user_id  item_id  ui_genre_affinity  ui_rating_gap  ui_popularity_vs_user
+     635     2858              0.873         -0.037                  0.204
+     635      260              0.083          0.084                  0.203
+2026-11-11 01:05:19 | INFO    | features       | Feature build finished in 0.08s
+01:05:19.268 | INFO    | Task run '5-features-995' - Finished in state Completed()
+2026-11-11 01:05:19 | INFO    | training       | ==============================================================================
+2026-11-11 01:05:19 | INFO    | training       | STAGE: 6. MODEL TRAINING  (tuning on validation split + MLflow tracking)
+2026-11-11 01:05:19 | INFO    | training       | ==============================================================================
+2026-11-11 01:05:19 | INFO    | training       | Tuning on validation split: sub-train=719,751 rows, validation=22,725 rows, 360 users
+2026-11-11 01:05:20 | INFO    | training       |   item_knn  neighbours=50   shrinkage=20   val_ndcg_at_10=0.1149
+2026-11-11 01:05:21 | INFO    | training       |   item_knn  neighbours=50   shrinkage=100  val_ndcg_at_10=0.1175
+2026-11-11 01:05:21 | INFO    | training       |   item_knn  neighbours=100  shrinkage=20   val_ndcg_at_10=0.1172
+2026-11-11 01:05:22 | INFO    | training       |   item_knn  neighbours=100  shrinkage=100  val_ndcg_at_10=0.1215
+2026-11-11 01:05:23 | INFO    | training       |   item_knn  neighbours=300  shrinkage=20   val_ndcg_at_10=0.1344
+2026-11-11 01:05:24 | INFO    | training       |   item_knn  neighbours=300  shrinkage=100  val_ndcg_at_10=0.1386
+2026-11-11 01:05:27 | INFO    | training       |   als_mf    reg=0.05                 val_rmse=0.9035
+2026-11-11 01:05:30 | INFO    | training       |   als_mf    reg=0.08                 val_rmse=0.8844
+2026-11-11 01:05:33 | INFO    | training       |   als_mf    reg=0.12                 val_rmse=0.8878
+2026-11-11 01:05:33 | INFO    | training       |   hybrid    {'item_knn': 0.55, 'als_mf': 0.2, 'genre_affinity': 0.15, 'popularity': 0.1} val_ndcg_at_10=0.1834
+2026-11-11 01:05:33 | INFO    | training       |   hybrid    {'item_knn': 0.5, 'als_mf': 0.1, 'genre_affinity': 0.1, 'popularity': 0.3} val_ndcg_at_10=0.1743
+2026-11-11 01:05:33 | INFO    | training       |   hybrid    {'item_knn': 0.4, 'als_mf': 0.1, 'genre_affinity': 0.1, 'popularity': 0.4} val_ndcg_at_10=0.1810
+2026-11-11 01:05:34 | INFO    | training       |   hybrid    {'item_knn': 0.45, 'als_mf': 0.25, 'genre_affinity': 0.05, 'popularity': 0.25} val_ndcg_at_10=0.1883
+2026-11-11 01:05:34 | INFO    | training       | Selected: item_knn={'neighbours': 300, 'shrinkage': 100} | als_mf reg=0.08 | hybrid weights={'item_knn': 0.45, 'als_mf': 0.25, 'genre_affinity': 0.05, 'popularity': 0.25}
+2026-11-11 01:05:34 | INFO    | training       | Hyper-parameter tuning finished in 14.45s
+2026-11-11 01:05:34 | INFO    | training       | Trained popularity in   0.00s  params={'min_ratings': 20}  run_id=45884e0763ae
+2026-11-11 01:05:34 | INFO    | training       | Trained item_knn   in   0.75s  params={'neighbours': 300, 'shrinkage': 100}  run_id=fc4aef2c2c89
+2026-11-11 01:05:38 | INFO    | training       | Trained als_mf     in   3.42s  params={'factors': 48, 'reg': 0.08, 'bias_reg': 10.0, 'iterations': 10}  run_id=d03de936e77f final_train_rmse=0.7375
+2026-11-11 01:05:38 | INFO    | training       | Trained hybrid     in   0.00s  params={'weights': {'item_knn': 0.45, 'als_mf': 0.25, 'genre_affinity': 0.05, 'popularity': 0.25}}  run_id=e325a1ae0bbc
+2026-11-11 01:05:38 | INFO    | training       | Final model training finished in 4.25s
+2026-11-11 01:05:38 | INFO    | training       | Model registry -> models/model_registry.json ; MLflow experiment 'movielens-recsys'
+01:05:38.372 | INFO    | Task run '6-train-a6d' - Finished in state Completed()
+2026-11-11 01:05:38 | INFO    | evaluation     | ==============================================================================
+2026-11-11 01:05:38 | INFO    | evaluation     | STAGE: 7. MODEL EVALUATION  (P/R/NDCG@K, coverage, diversity, RMSE/MAE)
+2026-11-11 01:05:38 | INFO    | evaluation     | ==============================================================================
+2026-11-11 01:05:38 | INFO    | evaluation     | Test period: 103,783 ratings | 1135 users (1114 with >=1 relevant item, rating >= 4) | catalogue=3662 items
+2026-11-11 01:05:38 | INFO    | evaluation     | Popularity (baseline)          P@10=0.1986 R@10=0.0479 NDCG@10=0.2129 Cov=0.0374 Div=0.7601 RMSE=0.9595 MAE=0.7597
+2026-11-11 01:05:38 | INFO    | evaluation     | Item-kNN CF                    P@10=0.1912 R@10=0.0548 NDCG@10=0.2124 Cov=0.1436 Div=0.7370 RMSE=– MAE=–
+2026-11-11 01:05:38 | INFO    | evaluation     | ALS Matrix Factorisation       P@10=0.0954 R@10=0.0256 NDCG@10=0.1006 Cov=0.1671 Div=0.7904 RMSE=0.8941 MAE=0.6956
+2026-11-11 01:05:39 | INFO    | evaluation     | Hybrid (CF + MF + features)    P@10=0.2265 R@10=0.0646 NDCG@10=0.2489 Cov=0.1092 Div=0.7443 RMSE=– MAE=–
+2026-11-11 01:05:39 | INFO    | evaluation     | Evaluation finished in 0.90s
+2026-11-11 01:05:39 | INFO    | evaluation     | Comparison table (K=10):
+                             Precision@10  Recall@10  NDCG@10  HitRate@10  Coverage@10  Diversity@10  Novelty@10    RMSE     MAE
+Model                                                                                                                           
+Popularity (baseline)              0.1986     0.0479   0.2129      0.6284       0.0374        0.7601      1.4128  0.9595  0.7597
+Item-kNN CF                        0.1912     0.0548   0.2124      0.6221       0.1436        0.7370      1.9984     NaN     NaN
+ALS Matrix Factorisation           0.0954     0.0256   0.1006      0.4434       0.1671        0.7904      4.3955  0.8941  0.6956
+Hybrid (CF + MF + features)        0.2265     0.0646   0.2489      0.6732       0.1092        0.7443      1.8716     NaN     NaN
+2026-11-11 01:05:39 | INFO    | evaluation     | Best model by NDCG@10: Hybrid (CF + MF + features)
+2026-11-11 01:05:39 | INFO    | evaluation     | Reports -> reports/model_comparison.{md,csv,json}, reports/figures/model_comparison.png
+01:05:39.623 | INFO    | Task run '7-evaluate-b0c' - Finished in state Completed()
+01:05:39.625 | INFO    | Flow run 'augmented-terrier' - Popularity (baseline)          NDCG@10=0.2129 P@10=0.1986 Coverage@10=0.0374
+01:05:39.625 | INFO    | Flow run 'augmented-terrier' - Item-kNN CF                    NDCG@10=0.2124 P@10=0.1912 Coverage@10=0.1436
+01:05:39.625 | INFO    | Flow run 'augmented-terrier' - ALS Matrix Factorisation       NDCG@10=0.1006 P@10=0.0954 Coverage@10=0.1671
+01:05:39.626 | INFO    | Flow run 'augmented-terrier' - Hybrid (CF + MF + features)    NDCG@10=0.2489 P@10=0.2265 Coverage@10=0.1092
+01:05:39.636 | INFO    | Flow run 'augmented-terrier' - Finished in state Completed()
